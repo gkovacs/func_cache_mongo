@@ -20,12 +20,14 @@ func_cache_mongo = (mongo_url) ->
         collection.findOne {_id: nkey}, (err, result) ->
           if result?
             realres = new Buffer(result.res, 'base64').toString('utf8') |> JSON.parse
+            db.close()
             callback realres
           else
             f params, (res2) ->
               if res2?
                 nres = new Buffer(JSON.stringify(res2), 'utf8').toString('base64')
                 collection.save {_id: nkey, res: nres}
+              db.close()
               callback res2
 
 module.exports = func_cache_mongo

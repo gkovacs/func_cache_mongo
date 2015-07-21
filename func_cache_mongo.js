@@ -37,6 +37,7 @@
             if (result != null) {
               realres = JSON.parse(
               new Buffer(result.res, 'base64').toString('utf8'));
+              db.close();
               return callback(realres);
             } else {
               return f(params, function(res2){
@@ -48,6 +49,7 @@
                     res: nres
                   });
                 }
+                db.close();
                 return callback(res2);
               });
             }
